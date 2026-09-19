@@ -80,6 +80,7 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ currentLang }) => {
           <img
             src={`${TMDB_IMG}${feature.poster}`}
             alt=""
+            aria-hidden="true"
             decoding="async"
             fetchPriority={i === 0 ? 'high' : 'low'}
             className={`h-full w-full object-cover [filter:saturate(1.08)_contrast(1.05)] ${
