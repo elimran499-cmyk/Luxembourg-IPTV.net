@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { UI } from '../data/ui';
 import { HelpCircle, ChevronDown } from 'lucide-react';
 import { SectionHeading } from './SectionHeading';
 import { Language } from '../types';
@@ -12,6 +13,7 @@ interface FAQProps {
 
 export const FAQ: React.FC<FAQProps> = ({ currentLang }) => {
   const t = translations[currentLang];
+  const ui = UI[currentLang];
   /* Everything closed to begin with: six open-able questions read as a short
      list, where one open answer turned the section into a wall of text. */
   const [openId, setOpenId] = useState<string | null>(null);
@@ -72,7 +74,7 @@ export const FAQ: React.FC<FAQProps> = ({ currentLang }) => {
             </span>
             <div>
               <h3 className="font-display text-sm font-bold text-ink-900">
-                Besoin d'aide pour configurer votre boîtier ?
+                {ui.faqHelpTitle}
               </h3>
               <p className="mt-0.5 text-xs text-ink-500">{t.faq.contactSupport}</p>
             </div>
@@ -85,7 +87,7 @@ export const FAQ: React.FC<FAQProps> = ({ currentLang }) => {
             className="lux-glass-whatsapp flex shrink-0 items-center gap-2 rounded-2xl px-5 py-3 text-xs font-bold text-white transition-transform hover:scale-[1.02]"
           >
             <WhatsAppIcon className="h-4 w-4" />
-            Assistance WhatsApp
+            {ui.whatsappSupport}
           </a>
         </div>
       </div>

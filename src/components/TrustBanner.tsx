@@ -1,4 +1,5 @@
 import React from 'react';
+import { UI } from '../data/ui';
 import { CreditCard, Shield, Zap, Lock, Apple, Bitcoin, QrCode } from 'lucide-react';
 import { Language } from '../types';
 import { translations } from '../data/translations';
@@ -9,6 +10,7 @@ interface TrustBannerProps {
 
 export const TrustBanner: React.FC<TrustBannerProps> = ({ currentLang }) => {
   const t = translations[currentLang];
+  const ui = UI[currentLang];
 
   return (
     <section className="border-y border-ink-100 bg-white py-10">
@@ -52,7 +54,7 @@ export const TrustBanner: React.FC<TrustBannerProps> = ({ currentLang }) => {
         <div className="mt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-ink-100 pt-6 text-[11px] font-medium text-ink-500">
           <span className="flex items-center gap-1.5">
             <Lock className="h-3.5 w-3.5 text-emerald-500" />
-            Chiffrement SSL 256-bit
+            {ui.sslEncryption}
           </span>
           <span className="hidden text-ink-300 sm:inline">•</span>
           <span className="flex items-center gap-1.5">
@@ -62,7 +64,7 @@ export const TrustBanner: React.FC<TrustBannerProps> = ({ currentLang }) => {
           <span className="hidden text-ink-300 sm:inline">•</span>
           <span className="flex items-center gap-1.5">
             <Shield className="h-3.5 w-3.5 text-lux-500" />
-            Zéro log de connexion (conforme RGPD)
+            {ui.noLogs}
           </span>
         </div>
       </div>

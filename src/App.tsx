@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { UI } from './data/ui';
 import { Language } from './types';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
@@ -19,7 +20,8 @@ import { WHATSAPP_URL } from './data/contact';
 import { WhatsAppIcon } from './components/WhatsAppIcon';
 
 export default function App() {
-  const [currentLang, setCurrentLang] = useState<Language>('fr');
+  const [currentLang, setCurrentLang] = useState<Language>('lb'); /* Lëtzebuergesch is the site's own language */
+  const ui = UI[currentLang];
   /*
    * Sections settle in as they come into view. The hidden state lives behind
    * a class this effect sets, so a reader without JS — or with the observer
@@ -100,10 +102,10 @@ export default function App() {
         target="_blank"
         rel="noopener noreferrer"
         className="lux-glass-whatsapp group fixed bottom-6 right-6 z-30 hidden items-center gap-2.5 rounded-full px-4 py-3 text-sm font-bold text-white transition-transform hover:scale-105 sm:flex"
-        aria-label="Assistance WhatsApp Luxembourg"
+        aria-label="{ui.whatsappSupport} Luxembourg"
       >
         <WhatsAppIcon className="h-5 w-5" />
-        <span className="hidden lg:inline">Aide WhatsApp 24/7 (LU)</span>
+        <span className="hidden lg:inline">{ui.whatsappHelp}</span>
       </a>
 
       <MobileTabBar currentLang={currentLang} />

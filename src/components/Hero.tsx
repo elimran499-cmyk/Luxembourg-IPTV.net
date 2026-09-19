@@ -1,4 +1,5 @@
 import React from 'react';
+import { UI } from '../data/ui';
 import { ShieldCheck, CheckCircle2, ChevronRight, Star, Users, Clapperboard, Gauge, Tv, Radio } from 'lucide-react';
 import { Language, VodTitle } from '../types';
 import { translations } from '../data/translations';
@@ -64,16 +65,17 @@ const PosterColumn: React.FC<{
  */
 export const Hero: React.FC<HeroProps> = ({ currentLang }) => {
   const t = translations[currentLang];
+  const ui = UI[currentLang];
 
   const proofPoints = [
-    'RTL Télé Lëtzebuerg & Chamber TV 4K',
-    'Anti-Freeze™ 99.9% uptime garanti',
-    'Paiement Payconiq, carte & crypto',
-    'Compatible POST, Tango, Orange'
+    ui.proofLocal,
+    ui.proofUptime,
+    ui.proofPayment,
+    ui.proofIsp
   ];
 
   const STAT_LABELS: Record<Language, [string, string, string, string]> = {
-    fr: ['Chaînes en direct', 'Films & séries', 'Latence LU-CIX', 'Foyers au Luxembourg'],
+    fr: [ui.statChannels, 'Films & séries', 'Latence LU-CIX', 'Foyers au Luxembourg'],
     de: ['Live-Sender', 'Filme & Serien', 'Latenz LU-CIX', 'Haushalte in Luxemburg'],
     en: ['Live channels', 'Films & series', 'LU-CIX latency', 'Homes in Luxembourg'],
     lb: ['Live Senderen', 'Filmer & Serien', 'Latenz LU-CIX', 'Stéit zu Lëtzebuerg']
@@ -184,12 +186,12 @@ export const Hero: React.FC<HeroProps> = ({ currentLang }) => {
             <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-white/55">
               <span className="flex items-center gap-1.5">
                 <ShieldCheck className="h-4 w-4 text-emerald-400" />
-                Garantie 14 jours satisfait ou remboursé
+                {ui.guaranteeLong}
               </span>
               <span className="hidden text-white/25 sm:inline">•</span>
               <span className="flex items-center gap-1.5">
                 <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                <span className="font-bold text-white/90">4.9 / 5</span> sur 1 240 avis vérifiés
+                <span className="font-bold text-white/90">4.9 / 5</span> {ui.reviewsSuffix}
               </span>
             </div>
           </div>

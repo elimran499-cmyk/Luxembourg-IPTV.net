@@ -1,4 +1,5 @@
 import React from 'react';
+import { UI } from '../data/ui';
 import { Star, ShieldCheck, MapPin, Quote } from 'lucide-react';
 import { SectionHeading } from './SectionHeading';
 import { Language } from '../types';
@@ -11,6 +12,7 @@ interface TestimonialsProps {
 
 export const Testimonials: React.FC<TestimonialsProps> = ({ currentLang }) => {
   const t = translations[currentLang];
+  const ui = UI[currentLang];
 
   return (
     <section id="reviews" className="lux-paper relative border-y border-ink-100 bg-ink-50 py-16">
@@ -75,7 +77,7 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ currentLang }) => {
             <span className="font-display text-sm font-bold text-ink-900">4.9 / 5</span>
           </span>
           <span className="text-ink-300">•</span>
-          <span>Basé sur plus de 1 240 avis vérifiés de résidents au Luxembourg</span>
+          <span>{ui.reviewsBase}</span>
           <span className="text-ink-300">•</span>
           <span className="font-semibold text-emerald-600">99.4 % de taux de recommandation</span>
         </div>

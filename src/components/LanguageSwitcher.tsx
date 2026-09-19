@@ -10,10 +10,10 @@ interface LanguageSwitcherProps {
 }
 
 export const LANGUAGES: { code: Language; label: string; flag: string }[] = [
+  { code: 'lb', label: 'Lëtzebuergesch', flag: '🇱🇺' },
   { code: 'fr', label: 'Français', flag: '🇫🇷' },
   { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
-  { code: 'en', label: 'English', flag: '🇬🇧' },
-  { code: 'lb', label: 'Lëtzebuergesch', flag: '🇱🇺' }
+  { code: 'en', label: 'English', flag: '🇬🇧' }
 ];
 
 /**

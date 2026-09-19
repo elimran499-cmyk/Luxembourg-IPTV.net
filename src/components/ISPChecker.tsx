@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { UI } from '../data/ui';
 import { Wifi, CheckCircle2, ShieldCheck, ArrowRight, Gauge, Server } from 'lucide-react';
 import { SectionHeading } from './SectionHeading';
 import { Language } from '../types';
@@ -18,6 +19,7 @@ interface TestResult {
 
 export const ISPChecker: React.FC<ISPCheckerProps> = ({ currentLang }) => {
   const t = translations[currentLang];
+  const ui = UI[currentLang];
   const [selectedIsp, setSelectedIsp] = useState(LUX_ISPS[0].id);
   const [isTesting, setIsTesting] = useState(false);
   const [testResult, setTestResult] = useState<TestResult | null>({
@@ -138,11 +140,11 @@ export const ISPChecker: React.FC<ISPCheckerProps> = ({ currentLang }) => {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div className="rounded-xl bg-white/5 p-3 ring-1 ring-white/10">
-                      <span className="block text-[10px] uppercase tracking-wider text-white/50">Gigue / jitter</span>
+                      <span className="block text-[10px] uppercase tracking-wider text-white/50">{ui.ispJitter}</span>
                       <span className="font-display text-sm font-bold text-white">{testResult.jitter}</span>
                     </div>
                     <div className="rounded-xl bg-white/5 p-3 ring-1 ring-white/10">
-                      <span className="block text-[10px] uppercase tracking-wider text-white/50">Risque de coupure</span>
+                      <span className="block text-[10px] uppercase tracking-wider text-white/50">{ui.ispDropRisk}</span>
                       <span className="font-display text-sm font-bold text-emerald-400">{testResult.bufferRisk}</span>
                     </div>
                   </div>
@@ -155,7 +157,7 @@ export const ISPChecker: React.FC<ISPCheckerProps> = ({ currentLang }) => {
                   </p>
 
                   <div className="flex items-center justify-between gap-3">
-                    <span className="text-xs text-white/60">Prêt pour votre téléviseur ?</span>
+                    <span className="text-xs text-white/60">{ui.ispReady}</span>
                     <a
                       href="#pricing"
                       className="flex items-center gap-1 text-xs font-bold text-lux-300 transition-colors hover:text-white"
@@ -175,8 +177,8 @@ export const ISPChecker: React.FC<ISPCheckerProps> = ({ currentLang }) => {
               )}
 
               <div className="flex items-center justify-between border-t border-white/10 pt-3 text-[11px] text-white/40">
-                <span>Nœud d'échange : LU-CIX (Luxembourg)</span>
-                <span>IPTV Fast-Path actif</span>
+                <span>{ui.ispExchange}</span>
+                <span>{ui.ispFastPath}</span>
               </div>
             </div>
           </div>

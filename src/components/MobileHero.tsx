@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { UI } from '../data/ui';
 import { Play, Star, Zap, ShieldCheck } from 'lucide-react';
 import { Language } from '../types';
 import { translations } from '../data/translations';
@@ -37,6 +38,7 @@ const FALLBACK_ART = [
  */
 export const MobileHero: React.FC<MobileHeroProps> = ({ currentLang }) => {
   const t = translations[currentLang];
+  const ui = UI[currentLang];
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -58,9 +60,11 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ currentLang }) => {
       {/* The page's heading. The art and its film title are decoration, so the
           sentence that says what this site is stays in the document even though
           the phone hero no longer draws it. */}
-      <h1 className="sr-only">
+      {/* Not an H1: the wide hero below carries the page's single H1,
+          and both heroes are in the markup at the same time. */}
+      <p className="sr-only">
         {t.hero.h1Part1} {t.hero.h1Gradient} {t.hero.h1Part2} — {t.hero.subheadline}
-      </h1>
+      </p>
 
       {/* Key art. Every frame stays mounted and cross-fades, so switching
           never shows a gap while the next image decodes. */}
@@ -111,7 +115,7 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ currentLang }) => {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lux-300 opacity-75" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-lux-300" />
             </span>
-            🇱🇺 IPTV Luxembourg • 4K UHD & 8K
+            {ui.heroBadgeMobile} & 8K
           </span>
         </div>
 
@@ -163,11 +167,11 @@ export const MobileHero: React.FC<MobileHeroProps> = ({ currentLang }) => {
           <div className="mt-3.5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-[11px] text-white/60">
             <span className="flex items-center gap-1.5">
               <Zap className="h-3.5 w-3.5 text-amber-300" />
-              Activation &lt; 3 min
+              {ui.activationShort}
             </span>
             <span className="flex items-center gap-1.5">
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
-              Garantie 14 jours
+              {ui.guaranteeShort}
             </span>
             <span className="flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-flame-400" />

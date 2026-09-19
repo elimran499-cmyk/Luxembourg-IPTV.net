@@ -1,4 +1,5 @@
 import React from 'react';
+import { UI } from '../data/ui';
 import { Server, Clock, Headphones, Zap, Wifi } from 'lucide-react';
 import { SectionHeading } from './SectionHeading';
 import { Language } from '../types';
@@ -10,15 +11,17 @@ interface FeaturesProps {
 
 const FEATURE_ICONS = [Server, Zap, Clock, Headphones];
 
-const FEATURE_PROOFS = [
-  { text: 'Datacenters Tier-IV Bettembourg & Francfort', tone: 'text-emerald-600', dot: 'bg-emerald-500' },
-  { text: 'Double CDN actif, basculement 0 ms', tone: 'text-lux-600', dot: 'bg-lux-500' },
-  { text: 'Replay 7 jours sur RTL, TF1, Canal+ & ZDF', tone: 'text-amber-600', dot: 'bg-amber-500' },
-  { text: 'Assistance WhatsApp en LB, FR, DE, EN', tone: 'text-flame-600', dot: 'bg-flame-500' }
-];
-
 export const Features: React.FC<FeaturesProps> = ({ currentLang }) => {
   const t = translations[currentLang];
+  const ui = UI[currentLang];
+
+  const featureProofs = [
+    { text: ui.featureDatacenters, tone: 'text-emerald-600', dot: 'bg-emerald-500' },
+    { text: ui.featureCdn, tone: 'text-lux-600', dot: 'bg-lux-500' },
+    { text: ui.featureReplay, tone: 'text-amber-600', dot: 'bg-amber-500' },
+    { text: ui.featureSupportLangs, tone: 'text-flame-600', dot: 'bg-flame-500' }
+  ];
+
 
   return (
     <section id="features" className="lux-paper relative overflow-hidden bg-ink-50 py-24">
@@ -37,7 +40,7 @@ export const Features: React.FC<FeaturesProps> = ({ currentLang }) => {
         <div data-reveal-stagger className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-7">
           {t.features.items.map((item, index) => {
             const Icon = FEATURE_ICONS[index] || Server;
-            const proof = FEATURE_PROOFS[index];
+            const proof = featureProofs[index];
             return (
               <article
                 key={item.title}
@@ -74,18 +77,17 @@ export const Features: React.FC<FeaturesProps> = ({ currentLang }) => {
             </span>
             <div>
               <h3 className="font-display text-base font-bold text-ink-900">
-                Zéro bridage sur les réseaux POST, Tango et Orange
+                {ui.noThrottleTitle}
               </h3>
               <p className="mt-0.5 text-xs text-ink-500 sm:text-sm">
-                Chiffrement natif des paquets vidéo : votre fournisseur d'accès au Luxembourg ne peut pas brider votre
-                débit IPTV.
+                {ui.noThrottleBody}
               </p>
             </div>
           </div>
 
           <span className="flex shrink-0 items-center gap-2 rounded-xl border border-ink-200 bg-white px-3.5 py-2 text-xs font-semibold text-ink-600">
             <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
-            Uptime réseau LU : 99.98 %
+            {ui.uptimeChip}
           </span>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { UI } from '../data/ui';
 import { MapPin, Mail, ArrowRight, Zap } from 'lucide-react';
 import { Language } from '../types';
 import { translations } from '../data/translations';
@@ -20,6 +21,7 @@ interface FooterProps {
  */
 export const Footer: React.FC<FooterProps> = ({ currentLang, onLanguageChange }) => {
   const t = translations[currentLang];
+  const ui = UI[currentLang];
 
   const links = [
     { href: '#channels', label: t.nav.channels },
@@ -47,11 +49,11 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onLanguageChange })
           <div className="relative flex flex-col items-center justify-between gap-5 sm:flex-row sm:text-left">
             <div>
               <h2 className="font-display text-xl font-extrabold tracking-tight text-white sm:text-2xl">
-                Prêt à regarder le match de ce soir en 4K ?
+                {ui.footerClosing}
               </h2>
               <p className="mt-1.5 flex items-center justify-center gap-1.5 text-xs text-white/60 sm:justify-start">
                 <Zap className="h-3.5 w-3.5 text-amber-300" />
-                80 000 chaînes • 200 000 films &amp; séries • activation en 3 minutes
+                {ui.footerFacts}
               </p>
             </div>
 
@@ -107,7 +109,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onLanguageChange })
               className="flex items-center gap-1.5 font-semibold text-ink-600 transition-colors hover:text-emerald-600"
             >
               <WhatsAppIcon className="h-3.5 w-3.5 text-emerald-500" />
-              WhatsApp 7j/7
+              {ui.whatsappDaily}
             </a>
             <a
               href={`mailto:${SUPPORT_EMAIL}`}

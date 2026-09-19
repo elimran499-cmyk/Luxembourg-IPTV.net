@@ -1,4 +1,5 @@
 import React from 'react';
+import { UI } from '../data/ui';
 import { Tv, ArrowRight, Trophy } from 'lucide-react';
 import { SectionHeading } from './SectionHeading';
 import { Language } from '../types';
@@ -62,41 +63,42 @@ const LogoRail: React.FC<{
  */
 export const ChannelShowcase: React.FC<ChannelShowcaseProps> = ({ currentLang }) => {
   const t = translations[currentLang];
+  const ui = UI[currentLang];
 
   const stats = [
     {
       value: '+80 000',
       valueClass: 'text-ink-900',
-      title: 'Chaînes en direct',
-      note: 'Luxembourg, France, Belgique, Allemagne, UK & monde'
+      title: ui.statChannels,
+      note: ui.statChannelsNote
     },
     {
       value: '+200 000',
       valueClass: 'text-flame-600',
-      title: 'Films & séries à la demande',
-      note: 'Netflix, Prime, Disney+, Canal+ & replay 7 jours'
+      title: ui.statVod,
+      note: ui.statVodNote
     },
     {
       value: '4K UHD 60 fps',
       valueClass: 'text-lux-600',
       title: 'Anti-Freeze™ Dual-CDN',
-      note: 'Flux directs, sans ré-encodage dégradant'
+      note: ui.statAntifreezeNote
     }
   ];
 
   const groups = [
     {
-      title: 'Luxembourg & Benelux',
+      title: ui.groupLux,
       flag: '🇱🇺',
       channels: 'RTL Télé Lëtzebuerg · RTL Zwee · Chamber TV · Dok TV · PostTV · Pickx+ · VOO Sport · VRT · VTM'
     },
     {
-      title: 'Sport en direct',
+      title: ui.groupSport,
       flag: '🏆',
       channels: 'Canal+ Sport 360 · DAZN · BeIN Sports · Sky Sports · Eurosport · F1 TV Pro · ESPN'
     },
     {
-      title: 'Cinéma & séries',
+      title: ui.groupCinema,
       flag: '🎬',
       channels: 'Canal+ UHD · OCS · Sky Cinema · TF1 · France TV · ZDF · RTL Deutschland · SkyShowtime'
     }
