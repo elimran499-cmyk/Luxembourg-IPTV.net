@@ -1,0 +1,5 @@
+# luxembourgiptv.net
+User-agent: *
+Allow: /
+
+Sitemap: https://luxembourgiptv.net/sitemap.xml

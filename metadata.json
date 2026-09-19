@@ -1,0 +1,6 @@
+{
+  "name": "luxembourgiptv.net",
+  "description": "High-end, low-latency 4K UHD IPTV service optimized for Luxembourg with RTL Télé Lëtzebuerg, sports, Payconiq payment, and multilingual support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

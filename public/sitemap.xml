@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://luxembourgiptv.net/</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://luxembourgiptv.net/images/brand/luxembourg-iptv-logo.png</image:loc>
+      <image:title>Luxembourg IPTV — logo</image:title>
+      <image:caption>Logo de Luxembourg IPTV (luxembourgiptv.net), abonnement IPTV 4K UHD au Luxembourg.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://luxembourgiptv.net/images/brand/luxembourg-iptv-logo-mark.png</image:loc>
+      <image:title>Luxembourg IPTV — monogramme</image:title>
+      <image:caption>Monogramme Luxembourg IPTV, fond transparent.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://luxembourgiptv.net/images/brand/luxembourg-iptv-share-card.png</image:loc>
+      <image:title>Luxembourg IPTV — 80 000 chaînes et 200 000 films &amp; séries en 4K</image:title>
+      <image:caption>Carte de partage luxembourgiptv.net : IPTV 4K UHD au Luxembourg.</image:caption>
+    </image:image>
+  </url>
+</urlset>

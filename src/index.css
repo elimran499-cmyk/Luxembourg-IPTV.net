@@ -1,0 +1,659 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   luxembourgiptv.net design tokens — light theme.
+
+   Type: Outfit carries the display voice (headlines, prices, wordmark), Plus
+   Jakarta Sans everything a reader reads in sentences. The pair is the one
+   used across the newest sites in this collection, so the family stays
+   recognisable from site to site.
+
+   Colour: the Grand-Duchy's own azure and red, re-cut for a white page. The
+   flat brand azure (#00A3E0) is too pale against white for text, so the ramp
+   darkens through 600/700 for anything that has to be read, and keeps the
+   bright end for fills, glows and accents.
+--------------------------------------------------------------------------- */
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Outfit", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* Azure — primary */
+  --color-lux-50: #EDF9FE;
+  --color-lux-100: #D5F0FC;
+  --color-lux-200: #AEE3F9;
+  --color-lux-300: #74CFF3;
+  --color-lux-400: #32B6E9;
+  --color-lux-500: #0FA0D8;
+  --color-lux-600: #007FB4;
+  --color-lux-700: #026591;
+  --color-lux-800: #085576;
+  --color-lux-900: #0C4763;
+  --color-lux-950: #062D42;
+
+  /* Flame — the Luxembourg red, kept for live/urgency accents */
+  --color-flame-50: #FFF1F2;
+  --color-flame-100: #FFE0E3;
+  --color-flame-200: #FFC6CC;
+  --color-flame-300: #FF9DA8;
+  --color-flame-400: #FA6576;
+  --color-flame-500: #EF3340;
+  --color-flame-600: #DB1C31;
+  --color-flame-700: #B81328;
+  --color-flame-800: #991426;
+  --color-flame-900: #831726;
+
+  /* Neutrals — cool paper, not grey */
+  --color-ink-50: #F6F9FC;
+  --color-ink-100: #EDF2F8;
+  --color-ink-200: #DFE7F1;
+  --color-ink-300: #C6D3E3;
+  --color-ink-400: #94A6BD;
+  --color-ink-500: #6B7F99;
+  --color-ink-600: #4C5F79;
+  --color-ink-700: #35475E;
+  --color-ink-800: #1F2E42;
+  --color-ink-900: #0F1B2B;
+  --color-ink-950: #070E18;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* The sticky header must never land on top of an anchored section title. */
+  scroll-padding-top: 96px;
+}
+
+body {
+  background-color: #FFFFFF;
+  color: var(--color-ink-700);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink-50);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ink-300);
+  border-radius: 999px;
+  border: 2px solid var(--color-ink-50);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ink-400);
+}
+
+/* The one gradient the brand uses for type: azure into the flag's red. */
+.lux-gradient-text {
+  background: linear-gradient(100deg, #007FB4 0%, #0FA0D8 42%, #EF3340 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Card lift used across sections — a wide, very soft azure-tinted shadow. */
+.lux-card {
+  box-shadow: 0 1px 2px rgba(12, 44, 71, 0.04), 0 12px 32px -12px rgba(12, 44, 71, 0.14);
+}
+.lux-card-lifted {
+  box-shadow: 0 2px 4px rgba(12, 44, 71, 0.05), 0 28px 60px -22px rgba(0, 127, 180, 0.35);
+}
+
+/* ---------------------------------------------------------------------------
+   Films & séries rails.
+   Each row renders its posters twice; the track slides exactly one copy's
+   width (-50%) and restarts, so the loop reads as continuous with no pause.
+--------------------------------------------------------------------------- */
+@keyframes vod-marquee-left {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes vod-marquee-right {
+  from { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+
+.vod-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation-duration: var(--vod-duration, 90s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.vod-track-left  { animation-name: vod-marquee-left; }
+.vod-track-right { animation-name: vod-marquee-right; }
+
+/* Hero entrance — the headline settles rather than pops. */
+@keyframes lux-rise {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+.lux-rise {
+  animation: lux-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* The mobile menu panel slides in from the right edge. */
+@keyframes lux-slide-in {
+  from { opacity: 0; transform: translate3d(12%, 0, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+.lux-slide-in {
+  animation: lux-slide-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes lux-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.lux-fade-in {
+  animation: lux-fade-in 0.2s ease-out both;
+}
+
+
+/* ---------------------------------------------------------------------------
+   Hero poster wall: three columns drifting vertically at different speeds, so
+   the art moves the way a video wall does without a single video file.
+--------------------------------------------------------------------------- */
+@keyframes poster-drift-up {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, -50%, 0); }
+}
+
+@keyframes poster-drift-down {
+  from { transform: translate3d(0, -50%, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+
+.poster-column {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  animation-duration: var(--poster-duration, 60s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.poster-column-up   { animation-name: poster-drift-up; }
+.poster-column-down { animation-name: poster-drift-down; }
+
+/* ---------------------------------------------------------------------------
+   Scroll reveal. Elements marked [data-reveal] start dimmed and settle as they
+   enter the viewport; App wires one observer for the whole page. Without JS
+   (or with reduced motion) they simply stay visible.
+--------------------------------------------------------------------------- */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-ready [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+
+/* ---------------------------------------------------------------------------
+   Phone hero: the active frame drifts and swells across its whole hold, so a
+   still never sits perfectly static behind the headline, and the outgoing one
+   cross-fades under it rather than cutting.
+--------------------------------------------------------------------------- */
+@keyframes hero-kenburns {
+  from { transform: scale(1.02) translate3d(0, 0, 0); }
+  to   { transform: scale(1.14) translate3d(0, -1.2%, 0); }
+}
+
+.hero-kenburns {
+  animation: hero-kenburns 8s ease-out forwards;
+}
+
+@keyframes hero-line-in {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+.hero-line-in {
+  animation: hero-line-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Film grain over the art, so a compressed still does not read as flat. */
+.hero-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.05) 0px,
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+
+/* ---------------------------------------------------------------------------
+   Opening ident: the mark lands, the wordmark rises, the flag rule draws.
+--------------------------------------------------------------------------- */
+@keyframes intro-mark-in {
+  from { opacity: 0; transform: scale(0.82); }
+  60%  { opacity: 1; }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes intro-word-in {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes intro-rule-in {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.intro-mark { animation: intro-mark-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.intro-word { animation: intro-word-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both; }
+.intro-rule { animation: intro-rule-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both; }
+
+
+/* ---------------------------------------------------------------------------
+   Signature surfaces.
+--------------------------------------------------------------------------- */
+
+/* Soft colour mesh used behind the hero and the pricing grid: three washes
+   placed off-centre so the page never looks like flat white paper. */
+.lux-mesh {
+  background-image:
+    radial-gradient(60% 55% at 12% 8%, rgba(15, 160, 216, 0.16) 0%, transparent 60%),
+    radial-gradient(45% 45% at 88% 0%, rgba(239, 51, 64, 0.10) 0%, transparent 62%),
+    radial-gradient(70% 60% at 50% 100%, rgba(15, 160, 216, 0.08) 0%, transparent 65%);
+}
+
+/* A very fine paper grain. At this opacity it is felt rather than seen, and it
+   keeps large white areas from banding on cheap panels. */
+.lux-paper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(12, 44, 71, 0.018) 0 1px, transparent 1px 3px);
+}
+
+/* Primary buttons carry a sheen that sweeps once on hover. */
+.lux-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.lux-sheen::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 40%;
+  transform: skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transition: left 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lux-sheen:hover::after {
+  left: 130%;
+}
+
+/* Cards lift a little when pointed at, on the azure rather than on grey. */
+.lux-hover {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.35s ease;
+}
+
+.lux-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 2px 4px rgba(12, 44, 71, 0.05), 0 26px 50px -24px rgba(0, 127, 180, 0.42);
+}
+
+/* Children of a revealed grid arrive in sequence rather than all at once. */
+.reveal-ready [data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-ready [data-reveal-stagger].is-revealed > * {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-ready [data-reveal-stagger].is-revealed > *:nth-child(2) { transition-delay: 90ms; }
+.reveal-ready [data-reveal-stagger].is-revealed > *:nth-child(3) { transition-delay: 180ms; }
+.reveal-ready [data-reveal-stagger].is-revealed > *:nth-child(4) { transition-delay: 270ms; }
+.reveal-ready [data-reveal-stagger].is-revealed > *:nth-child(5) { transition-delay: 360ms; }
+.reveal-ready [data-reveal-stagger].is-revealed > *:nth-child(6) { transition-delay: 450ms; }
+
+
+/* ---------------------------------------------------------------------------
+   Glass. Two recipes: one for controls that sit over artwork, one for controls
+   on the white page. Both blur and lift saturation so whatever is behind them
+   still reads as colour rather than grey mush, and both keep a visible edge so
+   the control does not dissolve into its backdrop.
+--------------------------------------------------------------------------- */
+.lux-glass {
+  background-color: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 18px 40px -20px rgba(0, 0, 0, 0.75);
+}
+
+/* The primary action over artwork: the same glass, tinted with the brand azure
+   so it still reads as the one thing to press. */
+.lux-glass-primary {
+  background-image: linear-gradient(135deg, rgba(15, 160, 216, 0.85), rgba(50, 182, 233, 0.62));
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 20px 45px -18px rgba(0, 127, 180, 0.75);
+}
+
+/* WhatsApp: the same glass, tinted green. The gradient starts at emerald-700
+   rather than the brand's lighter green because the button carries white text
+   over a white page, and a paler tint would not hold that contrast. */
+.lux-glass-whatsapp {
+  background-image: linear-gradient(135deg, rgba(4, 120, 87, 0.94), rgba(16, 185, 129, 0.82));
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 20px 45px -18px rgba(4, 120, 87, 0.7);
+}
+
+/* On the white page: frosted paper rather than frosted glass. Kept fairly
+   opaque because the tab bar floats over the dark hero art too, and its labels
+   have to stay readable there. */
+.lux-glass-light {
+  background-color: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(223, 231, 241, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 10px 30px -14px rgba(12, 44, 71, 0.25);
+}
+
+/* Backdrop-filter is still missing in a few engines; without it the panels
+   would be near-transparent, so they fall back to something solid enough. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .lux-glass { background-color: rgba(11, 18, 32, 0.78); }
+  .lux-glass-light { background-color: rgba(255, 255, 255, 0.94); }
+  .lux-glass-whatsapp { background-image: linear-gradient(135deg, #047857, #059669); }
+}
+
+
+/* ---------------------------------------------------------------------------
+   Pack switching. Changing pack re-mounts the cards under a new key, and this
+   is what makes that change read as a cut to a new shot rather than a flicker:
+   the three cards rise in sequence, and the pack's own colour washes in behind
+   them.
+--------------------------------------------------------------------------- */
+@keyframes pack-in {
+  from { opacity: 0; transform: translate3d(0, 22px, 0) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes pack-wash-in {
+  from { opacity: 0; transform: scale(1.06); }
+  to   { opacity: 1; transform: none; }
+}
+
+.pack-card {
+  animation: pack-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.pack-card:nth-child(2) { animation-delay: 80ms; }
+.pack-card:nth-child(3) { animation-delay: 160ms; }
+
+.pack-wash {
+  animation: pack-wash-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+
+/* ---------------------------------------------------------------------------
+   The packs, staged like a screening.
+
+   The recommended pack stands in a spotlight, the room darkens at the edges,
+   and switching pack cuts to a different backdrop — the point is that choosing
+   a pack should feel like picking what to watch.
+--------------------------------------------------------------------------- */
+
+/* Glass with a lit top edge: the highlight is what makes it read as a pane
+   catching light rather than a flat translucent rectangle. */
+.pack-glass {
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 42%, rgba(255, 255, 255, 0.02) 100%);
+  backdrop-filter: blur(26px) saturate(155%);
+  -webkit-backdrop-filter: blur(26px) saturate(155%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+    0 30px 70px -30px rgba(0, 0, 0, 0.9);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .pack-glass { background-color: rgba(11, 18, 32, 0.86); }
+}
+
+/* The room's edges fall away, so the cards sit in the lit centre. */
+.pack-vignette {
+  background:
+    radial-gradient(120% 80% at 50% 38%, transparent 38%, rgba(4, 8, 15, 0.55) 78%, rgba(4, 8, 15, 0.9) 100%);
+}
+
+/* Backdrop cut: the outgoing montage is replaced by one that pushes in. */
+@keyframes pack-backdrop-in {
+  from { opacity: 0; transform: scale(1.12); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.pack-backdrop {
+  animation: pack-backdrop-in 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+
+/*
+ * The spotlight. A cone of light falls on the recommended card from above and
+ * sways the way a lamp does, with a lit line where it lands on the top edge.
+ * It is always on: no hover, and no timer that leaves the card plain between
+ * passes. Clipped by the card, so none of it is drawn across the section.
+ */
+@keyframes pack-spot-sway {
+  0%, 100% { transform: translateX(-5%) scale(1); opacity: 0.8; }
+  50%      { transform: translateX(5%) scale(1.05); opacity: 1; }
+}
+
+.pack-spotlight::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -25%;
+  width: 150%;
+  height: 80%;
+  pointer-events: none;
+  background: radial-gradient(
+    46% 52% at 50% 0%,
+    rgba(255, 255, 255, 0.55) 0%,
+    var(--ring-colour, rgba(15, 160, 216, 0.55)) 34%,
+    transparent 72%
+  );
+  filter: blur(26px);
+  animation: pack-spot-sway 7s ease-in-out infinite;
+}
+
+/* Where the beam lands on the card's edge. */
+.pack-spotlight::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 14%;
+  right: 14%;
+  height: 1.5px;
+  border-radius: 999px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, #ffffff 46%, var(--ring-colour, #0FA0D8) 56%, transparent);
+  opacity: 0.9;
+}
+
+
+/* ---------------------------------------------------------------------------
+   The pack's colour, as an animatable value.
+
+   A custom property only interpolates once it is registered with a type, so
+   `--pack-colour` is declared here rather than set straight on the element.
+   Everything tinted by a pack — washes, chips, accents, the spotlight, the
+   order button — reads this one variable, which is why switching pack fades
+   the whole section instead of repainting it.
+--------------------------------------------------------------------------- */
+@property --pack-colour {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #38BDF8;
+}
+
+@property --pack-deep {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #0C4A96;
+}
+
+.pack-theme {
+  --pack-colour: #38BDF8;
+  --pack-deep: #0C4A96;
+  transition:
+    --pack-colour 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    --pack-deep 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* The sliding indicator behind the active pack tab. */
+.pack-tab-pill {
+  transition:
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Prices are compared column by column, so their digits line up. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .pack-spotlight::before {
+    animation: none;
+  }
+  .pack-theme,
+  .pack-tab-pill {
+    transition: none;
+  }
+  .pack-backdrop {
+    animation: none;
+  }
+  .pack-card,
+  .pack-wash {
+    animation: none;
+  }
+  .lux-sheen::after {
+    display: none;
+  }
+  .reveal-ready [data-reveal-stagger] > *,
+  .reveal-ready [data-reveal-stagger].is-revealed > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .hero-kenburns,
+  .hero-line-in {
+    animation: none;
+  }
+  .poster-column {
+    animation: none;
+  }
+  .reveal-ready [data-reveal],
+  .reveal-ready [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .vod-track {
+    animation: none;
+    transform: none;
+  }
+  .vod-rail {
+    overflow-x: auto;
+  }
+  .lux-rise,
+  .lux-slide-in,
+  .lux-fade-in {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+
+/* ---------------------------------------------------------------------------
+   The hero's poster wall, feathered into the page.
+
+   A gradient scrim laid over the art can only fade it towards one colour; a
+   mask removes the art itself, so the page's own background — and the light
+   leaks sitting behind it — show through the edge instead. Both axes are
+   masked at once, which is why it takes two images and `mask-composite`.
+--------------------------------------------------------------------------- */
+.hero-wall-mask {
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.55) 22%, #000 46%),
+    linear-gradient(180deg, transparent 0%, #000 16%, #000 76%, transparent 100%);
+  mask-image:
+    linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.55) 22%, #000 46%),
+    linear-gradient(180deg, transparent 0%, #000 16%, #000 76%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* The active hero dot fills over exactly as long as its frame is on screen. */
+@keyframes hero-dot-fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.hero-dot-fill {
+  animation: hero-dot-fill var(--hold, 6000ms) linear forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-dot-fill { animation: none; transform: scaleX(1); }
+}
+
+/* The scrolled header sits over hero artwork, where 0.82 white reads as a
+   smear of the poster behind it rather than as paper. This is the same
+   recipe, opaque enough that the wordmark and the links own their own row. */
+.lux-glass-solid {
+  background-color: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .lux-glass-solid { background-color: #FFFFFF; }
+}
