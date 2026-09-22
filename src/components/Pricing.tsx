@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
   Check,
   ShieldCheck,
@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { Language, VodTitle } from '../types';
 import { translations } from '../data/translations';
+import { SectionHeadingSuppressed } from './SectionHeading';
 import {
   PACK_GROUPS,
   PACK_NAMES,
@@ -57,6 +58,7 @@ const BACKDROPS: Record<string, VodTitle[]> = {
 
 export const Pricing: React.FC<PricingProps> = ({ currentLang }) => {
   const t = translations[currentLang];
+  const headingSuppressed = useContext(SectionHeadingSuppressed);
   const [activeGroupId, setActiveGroupId] = useState(PACK_GROUPS[0].id);
 
   const group = PACK_GROUPS.find((g) => g.id === activeGroupId) || PACK_GROUPS[0];
@@ -169,19 +171,24 @@ export const Pricing: React.FC<PricingProps> = ({ currentLang }) => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">
-          <span className="lux-glass inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white">
-            <CreditCard className="h-3.5 w-3.5" />
-            {t.pricing.badge}
-          </span>
+          {/* On the packs' own page the heading is already overhead. */}
+          {!headingSuppressed && (
+            <>
+              <span className="lux-glass inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white">
+                <CreditCard className="h-3.5 w-3.5" />
+                {t.pricing.badge}
+              </span>
 
-          <span className="mx-auto mt-5 block h-[3px] w-12 rounded-full bg-gradient-to-r from-lux-400 via-lux-300 to-flame-400" />
+              <span className="mx-auto mt-5 block h-[3px] w-12 rounded-full bg-gradient-to-r from-lux-400 via-lux-300 to-flame-400" />
 
-          <h2 className="mt-5 font-display text-[28px] font-extrabold leading-[1.08] tracking-tight text-white text-balance sm:text-[42px]">
-            {t.pricing.title}
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-white/60 sm:text-base">
-            {t.pricing.subtitle}
-          </p>
+              <h2 className="mt-5 font-display text-[28px] font-extrabold leading-[1.08] tracking-tight text-white text-balance sm:text-[42px]">
+                {t.pricing.title}
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-white/60 sm:text-base">
+                {t.pricing.subtitle}
+              </p>
+            </>
+          )}
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs">
             <span className="lux-glass flex items-center gap-2 rounded-full px-3 py-1.5 text-white/80">

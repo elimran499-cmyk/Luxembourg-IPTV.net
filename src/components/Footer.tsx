@@ -4,13 +4,14 @@ import { MapPin, Mail, ArrowRight, Zap } from 'lucide-react';
 import { Language } from '../types';
 import { translations } from '../data/translations';
 import { BrandLogo } from './BrandLogo';
-import { LANGUAGES } from './LanguageSwitcher';
+import { LOCALES } from '../data/seo';
+import { PageId, menuFor, pageHref, pricingHref } from '../data/pages';
 import { WhatsAppIcon } from './WhatsAppIcon';
 import { SUPPORT_EMAIL, WHATSAPP_URL } from '../data/contact';
 
 interface FooterProps {
   currentLang: Language;
-  onLanguageChange: (lang: Language) => void;
+  page: PageId;
 }
 
 /**
@@ -19,17 +20,14 @@ interface FooterProps {
  * quick links, the legal list, the payment logos — is now an inline row, which
  * is what a footer is for: a place to check a detail, not a second homepage.
  */
-export const Footer: React.FC<FooterProps> = ({ currentLang, onLanguageChange }) => {
+export const Footer: React.FC<FooterProps> = ({ currentLang, page }) => {
   const t = translations[currentLang];
   const ui = UI[currentLang];
 
-  const links = [
-    { href: '#channels', label: t.nav.channels },
-    { href: '#films', label: t.nav.films },
-    { href: '#pricing', label: t.nav.pricing },
-    { href: '#devices', label: t.nav.devices },
-    { href: '#faq', label: t.nav.faq }
-  ];
+  /* Every entry of the menu, in this language, on every page of the site:
+     that is what makes each of those pages reachable — and crawlable — from
+     anywhere else. */
+  const links = menuFor(currentLang);
 
   const legal = ['CGV', 'Confidentialité (RGPD)', 'Remboursement', 'CNPD'];
 
@@ -59,7 +57,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onLanguageChange })
 
             <div className="flex w-full shrink-0 flex-col gap-2.5 sm:w-auto sm:flex-row">
               <a
-                href="#pricing"
+                href={pricingHref(currentLang, page)}
                 className="lux-sheen flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-lux-500 to-lux-400 px-5 py-3 text-sm font-bold text-ink-950 transition-transform hover:scale-[1.02]"
               >
                 {t.nav.pricing}
@@ -123,18 +121,25 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onLanguageChange })
           </div>
 
           <div className="flex items-center gap-1.5">
-            {LANGUAGES.map((lang) => (
-              <button
-                key={lang.code}
-                onClick={() => onLanguageChange(lang.code)}
+            {/* Real links, one per language: a crawler follows them to the
+                other editions of the page. */}
+            {LOCALES.map((locale) => (
+              <a
+                key={locale.code}
+                href={locale.path}
+                hrefLang={locale.htmlLang}
+                lang={locale.htmlLang}
+                rel="alternate"
+                title={locale.label}
+                aria-current={currentLang === locale.code ? 'page' : undefined}
                 className={`rounded-lg px-2.5 py-1 text-[11px] font-bold uppercase transition-colors ${
-                  currentLang === lang.code
+                  currentLang === locale.code
                     ? 'bg-lux-600 text-white'
                     : 'bg-white text-ink-500 ring-1 ring-ink-200 hover:text-ink-900'
                 }`}
               >
-                {lang.code}
-              </button>
+                {locale.code}
+              </a>
             ))}
           </div>
         </div>
@@ -146,7 +151,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onLanguageChange })
           </p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
             {legal.map((label) => (
-              <a key={label} href="#top" className="transition-colors hover:text-ink-700">
+              <a key={label} href={pageHref(currentLang, 'home')} className="transition-colors hover:text-ink-700">
                 {label}
               </a>
             ))}

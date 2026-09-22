@@ -4,13 +4,15 @@ import { Language } from '../types';
 import { translations } from '../data/translations';
 import { BrandLogo } from './BrandLogo';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { PageId, brandHref, pricingHref } from '../data/pages';
 import { WhatsAppIcon } from './WhatsAppIcon';
 import { ScrollProgress } from './ScrollProgress';
 import { WHATSAPP_URL } from '../data/contact';
 
 interface HeaderProps {
   currentLang: Language;
-  onLanguageChange: (lang: Language) => void;
+  /** The page being read: it decides whether the CTA scrolls or navigates. */
+  page: PageId;
 }
 
 /**
@@ -23,7 +25,7 @@ interface HeaderProps {
  * height, and grows a hairline that fills as you read — the one piece of
  * chrome that says how much of the page is left.
  */
-export const Header: React.FC<HeaderProps> = ({ currentLang, onLanguageChange }) => {
+export const Header: React.FC<HeaderProps> = ({ currentLang, page }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const t = translations[currentLang];
 
@@ -46,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({ currentLang, onLanguageChange })
             isScrolled ? 'h-14 sm:h-16' : 'h-[60px] sm:h-20'
           }`}
         >
-          <a href="#top" aria-label="Luxembourg IPTV — accueil" className="shrink-0">
+          <a href={brandHref(currentLang, page)} aria-label="Luxembourg IPTV — accueil" className="shrink-0">
             <BrandLogo invert={!isScrolled} compact />
           </a>
 
@@ -70,7 +72,6 @@ export const Header: React.FC<HeaderProps> = ({ currentLang, onLanguageChange })
 
             <LanguageSwitcher
               currentLang={currentLang}
-              onLanguageChange={onLanguageChange}
               tone={isScrolled ? 'onLight' : 'onDark'}
             />
 
@@ -78,7 +79,7 @@ export const Header: React.FC<HeaderProps> = ({ currentLang, onLanguageChange })
                 on the page. */}
             <a
               id="header-order-btn"
-              href="#pricing"
+              href={pricingHref(currentLang, page)}
               className={`group hidden h-10 items-center gap-2 whitespace-nowrap rounded-full px-5 text-sm font-bold text-white transition-transform active:scale-95 sm:flex ${
                 isScrolled
                   ? 'bg-gradient-to-r from-lux-700 to-lux-500 shadow-lg shadow-lux-500/25'

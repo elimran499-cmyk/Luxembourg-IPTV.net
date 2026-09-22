@@ -1,4 +1,11 @@
-import React from 'react';
+import React, { createContext, useContext } from 'react';
+
+/**
+ * Set where a section is shown on a page of its own. That page already opens
+ * on the section's title, so the section drops its copy of it rather than
+ * printing the same two lines twice.
+ */
+export const SectionHeadingSuppressed = createContext(false);
 
 interface SectionHeadingProps {
   /** Small all-caps line above the title. */
@@ -24,7 +31,10 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   lead,
   tone = 'onWhite',
   className = ''
-}) => (
+}) => {
+  if (useContext(SectionHeadingSuppressed)) return null;
+
+  return (
   <div className={`relative mx-auto max-w-3xl text-center ${className}`}>
     <span
       className={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-lux-700 ring-1 ${
@@ -44,3 +54,4 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
     {lead && <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-ink-500 sm:text-base">{lead}</p>}
   </div>
 );
+};

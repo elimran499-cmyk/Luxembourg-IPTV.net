@@ -1,32 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
 import { Language } from '../types';
+import { LOCALES, localeMeta } from '../data/seo';
 
 interface LanguageSwitcherProps {
   currentLang: Language;
-  onLanguageChange: (lang: Language) => void;
   /** Over the dark hero the trigger is glass; on white it is frosted paper. */
   tone?: 'onDark' | 'onLight';
 }
-
-export const LANGUAGES: { code: Language; label: string; flag: string }[] = [
-  { code: 'lb', label: 'Lëtzebuergesch', flag: '🇱🇺' },
-  { code: 'fr', label: 'Français', flag: '🇫🇷' },
-  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
-  { code: 'en', label: 'English', flag: '🇬🇧' }
-];
 
 /**
  * The language switcher, same shape on a phone as on a desktop: a compact pill
  * carrying the current code, opening an inked sheet of full language names.
  *
- * It switches what is rendered, not the address, so the site keeps one
- * indexable URL — which is also why the pill shows the code rather than a flag
- * alone: a flag names a country, not a language.
+ * Every entry is a real link to that language's own address — `/`, `/fr/`,
+ * `/de/`, `/en/` — so switching loads the page already written in that
+ * language, and a crawler following the menu finds all four. The pill shows
+ * the code rather than a flag alone: a flag names a country, not a language.
  */
 export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   currentLang,
-  onLanguageChange,
   tone = 'onLight'
 }) => {
   const [open, setOpen] = useState(false);
@@ -48,7 +41,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
     };
   }, [open]);
 
-  const active = LANGUAGES.find((l) => l.code === currentLang) || LANGUAGES[0];
+  const active = localeMeta(currentLang);
 
   return (
     <div ref={wrapper} className="relative">
@@ -68,25 +61,26 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
 
       {open && (
         <div className="lux-fade-in absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-2xl bg-ink-900/95 py-1.5 shadow-2xl ring-1 ring-white/10 backdrop-blur-xl">
-          {LANGUAGES.map((lang) => {
-            const isActive = lang.code === currentLang;
+          {LOCALES.map((locale) => {
+            const isActive = locale.code === currentLang;
             return (
-              <button
-                key={lang.code}
-                onClick={() => {
-                  onLanguageChange(lang.code);
-                  setOpen(false);
-                }}
+              <a
+                key={locale.code}
+                href={locale.path}
+                hrefLang={locale.htmlLang}
+                lang={locale.htmlLang}
+                rel="alternate"
+                aria-current={isActive ? 'page' : undefined}
                 className={`flex w-full items-center justify-between px-3.5 py-2.5 text-left text-xs transition-colors ${
                   isActive ? 'font-bold text-white' : 'text-white/60 hover:text-white'
                 }`}
               >
                 <span className="flex items-center gap-2.5">
-                  <span className="text-sm">{lang.flag}</span>
-                  {lang.label}
+                  <span className="text-sm">{locale.flag}</span>
+                  {locale.label}
                 </span>
                 {isActive && <Check className="h-3.5 w-3.5 text-emerald-400" />}
-              </button>
+              </a>
             );
           })}
         </div>

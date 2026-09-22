@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Home, Tv, Clapperboard, Tag } from 'lucide-react';
 import { WhatsAppIcon } from './WhatsAppIcon';
 import { Language } from '../types';
 import { WHATSAPP_URL } from '../data/contact';
+import { PageId, pageHref } from '../data/pages';
 
 interface MobileTabBarProps {
   currentLang: Language;
+  /** The page being read, which is the tab that lights up. */
+  page: PageId;
 }
 
 /**
  * Phone-only tab bar. The five destinations a visitor actually uses, always a
- * thumb away, with the active pill following the section under the reader —
- * so the bar doubles as a position indicator on a very long landing page.
+ * thumb away. Each one is now a page of its own, so the tabs are links
+ * between pages and the pill marks the page being read.
  */
-export const MobileTabBar: React.FC<MobileTabBarProps> = ({ currentLang }) => {
-  const [active, setActive] = useState('top');
+export const MobileTabBar: React.FC<MobileTabBarProps> = ({ currentLang, page }) => {
 
   // The bar is five columns wide on a 360px phone, so every label has to fit
   // in roughly eight characters — hence its own short strings per language
@@ -28,32 +30,13 @@ export const MobileTabBar: React.FC<MobileTabBarProps> = ({ currentLang }) => {
 
   const labels = SHORT_LABELS[currentLang];
 
-  const tabs = [
-    { id: 'top', label: labels.home, icon: Home },
+  const tabs: { id: PageId; label: string; icon: typeof Home }[] = [
+    { id: 'home', label: labels.home, icon: Home },
     { id: 'channels', label: labels.channels, icon: Tv },
     { id: 'films', label: labels.films, icon: Clapperboard },
     { id: 'pricing', label: labels.pricing, icon: Tag }
   ];
 
-  useEffect(() => {
-    const ids = tabs.map((tab) => tab.id);
-    const onScroll = () => {
-      // The section whose top has passed 40% of the viewport is the one being
-      // read; anything above that line has scrolled out of attention.
-      const line = window.scrollY + window.innerHeight * 0.4;
-      let next = ids[0];
-      ids.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el && el.offsetTop <= line) next = id;
-      });
-      setActive((current) => (current === next ? current : next));
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-    // Tab ids are static; the labels alone change with the language.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     /*
@@ -68,12 +51,12 @@ export const MobileTabBar: React.FC<MobileTabBarProps> = ({ currentLang }) => {
     >
       <div className="lux-glass-light flex items-center gap-1 rounded-[26px] p-1.5">
         {tabs.map(({ id, label, icon: Icon }) => {
-          const isActive = active === id;
+          const isActive = page === id;
           return (
             <a
               key={id}
-              href={`#${id}`}
-              aria-current={isActive ? 'true' : undefined}
+              href={pageHref(currentLang, id)}
+              aria-current={isActive ? 'page' : undefined}
               className={`relative flex flex-1 flex-col items-center gap-1 rounded-[20px] px-1 py-2 text-[10px] font-bold transition-all duration-300 ${
                 isActive
                   ? 'bg-gradient-to-b from-lux-500 to-lux-600 text-white shadow-lg shadow-lux-500/30'
