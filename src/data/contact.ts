@@ -7,10 +7,10 @@ import { PackSelection } from './packs';
  *
  * International format, digits only: no `+`, no spaces, no leading zero.
  */
-const WHATSAPP_E164 = '447832486269';
+const WHATSAPP_E164 = '447414662070';
 
 /** Shown wherever the number is written out. */
-export const WHATSAPP_NUMBER = '+44 7832 486269';
+export const WHATSAPP_NUMBER = '+44 7414 662070';
 
 export const SUPPORT_EMAIL = 'support@luxembourgiptv.net';
 
