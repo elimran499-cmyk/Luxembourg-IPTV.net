@@ -380,7 +380,7 @@ export const Pricing: React.FC<PricingProps> = ({ currentLang }) => {
                 </div>
 
                 <div className="relative space-y-3">
-                  <button
+                  <button data-cta="order"
                     id={`select-pack-${card.id}`}
                     onClick={() =>
                       openWhatsApp(orderMessage(buildSelection(group, card, currentLang), currentLang))
