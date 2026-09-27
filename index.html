@@ -1,6 +1,36 @@
 <!doctype html>
 <html lang="lb" class="scroll-smooth">
   <head>
+    <!-- Google tag (gtag.js). The inline stub defines gtag() and queues calls
+         into dataLayer, so a conversion fired before the remote tag lands is
+         kept and replayed. gtag.js itself is deferred until the visitor shows
+         intent or the page finishes loading, whichever comes first. -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-18345460239');
+
+      (function () {
+        var loaded = false;
+        function loadGtag() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18345460239';
+          document.head.appendChild(s);
+        }
+        var events = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
+        events.forEach(function (e) {
+          window.addEventListener(e, loadGtag, {once: true, passive: true, capture: true});
+        });
+        if (document.readyState === 'complete') loadGtag();
+        else window.addEventListener('load', loadGtag, {once: true});
+      })();
+    </script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
